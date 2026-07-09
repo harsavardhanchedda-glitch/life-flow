@@ -1,0 +1,195 @@
+/* --- Custom Design Tokens & Variables (Cloud & Sky Theme) --- */
+:root {
+  --bg-primary-light: #e0f2fe; /* light sky blue */
+  --bg-secondary-light: rgba(255, 255, 255, 0.65); /* translucent cloud white */
+  --border-light: rgba(186, 230, 253, 0.5); /* sky blue glow border */
+  --text-primary-light: #0369a1; /* deep sky blue */
+  --text-secondary-light: #0284c7; /* moderate sky blue */
+
+  --bg-primary-dark: #070f1e; /* midnight blue sky */
+  --bg-secondary-dark: rgba(15, 32, 67, 0.65); /* midnight cloud translucency */
+  --border-dark: rgba(56, 189, 248, 0.2); /* neon sky border glow */
+  --text-primary-dark: #f0f9ff; /* cloud white */
+  --text-secondary-dark: #7dd3fc; /* baby sky blue */
+
+  --accent-blue: #0284c7; /* sky-600 */
+  --accent-purple: #38bdf8; /* sky-400 */
+  --accent-emerald: #0ea5e9; /* sky-500 */
+  --accent-orange: #f97316;
+}
+
+/* --- Layout Base Adjustments --- */
+body {
+  font-family: 'Inter', sans-serif;
+  transition: background-color 0.4s ease, color 0.4s ease;
+  overflow-x: hidden;
+  /* Cloud morning sky background */
+  background: linear-gradient(180deg, #bae6fd 0%, #e0f2fe 40%, #f0f9ff 80%, #ffffff 100%) no-repeat center center fixed;
+  background-size: cover;
+}
+
+body.dark {
+  /* Midnight starlight sky background */
+  background: linear-gradient(180deg, #020617 0%, #070f1e 50%, #0c1a30 100%) no-repeat center center fixed;
+  background-size: cover;
+}
+
+h1, h2, h3, h4, .font-display {
+  font-family: 'Outfit', sans-serif;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(56, 189, 248, 0.3);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(56, 189, 248, 0.5);
+}
+
+/* --- Premium Glassmorphism (Cloud Layers) --- */
+.glass-panel {
+  backdrop-filter: blur(16px) saturate(120%);
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+  border: 1px solid var(--border-light);
+  background-color: var(--bg-secondary-light);
+  box-shadow: 0 10px 40px -10px rgba(14, 165, 233, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dark .glass-panel {
+  border: 1px solid var(--border-dark);
+  background-color: var(--bg-secondary-dark);
+  box-shadow: 0 10px 40px -15px rgba(0, 0, 0, 0.5);
+}
+
+/* Glassmorphism Sidebar (Floating Sky-Bar) */
+.glass-sidebar {
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-right: 1px solid var(--border-light);
+  background-color: rgba(255, 255, 255, 0.45);
+}
+.dark .glass-sidebar {
+  border-right: 1px solid var(--border-dark);
+  background-color: rgba(7, 15, 30, 0.85);
+}
+
+/* --- Micro-Animations & Custom Transitions --- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleUp {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes pulseStreak {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 3px rgba(14, 165, 233, 0.4)); }
+  50% { transform: scale(1.05); filter: drop-shadow(0 0 10px rgba(14, 165, 233, 0.8)); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-scale-up {
+  animation: scaleUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-streak-pulse {
+  animation: pulseStreak 2s infinite ease-in-out;
+}
+
+.view-panel {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.view-panel.active {
+  display: block;
+  opacity: 1;
+}
+
+/* Active Nav Button Indicator */
+.nav-btn.active {
+  background-color: rgba(14, 165, 233, 0.12);
+  color: var(--accent-blue);
+  border-left: 4px solid var(--accent-blue);
+}
+.dark .nav-btn.active {
+  background-color: rgba(56, 189, 248, 0.15);
+  color: var(--text-secondary-dark);
+  border-left: 4px solid var(--text-secondary-dark);
+}
+
+/* --- Heatmap Cell Grid Formatting --- */
+.heatmap-cell {
+  aspect-ratio: 1;
+  border-radius: 3px;
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+.heatmap-cell:hover {
+  transform: scale(1.25);
+  z-index: 10;
+  filter: brightness(1.2);
+}
+
+.cell-level-0 { background-color: rgba(226, 232, 240, 0.5); }
+.cell-level-1 { background-color: #bae6fd; } /* sky-200 */
+.cell-level-2 { background-color: #7dd3fc; } /* sky-300 */
+.cell-level-3 { background-color: #38bdf8; } /* sky-400 */
+.cell-level-4 { background-color: #0284c7; } /* sky-600 */
+
+.dark .cell-level-0 { background-color: rgba(30, 41, 59, 0.4); }
+.dark .cell-level-1 { background-color: #0369a1; } /* sky-700 */
+.dark .cell-level-2 { background-color: #0284c7; } /* sky-600 */
+.dark .cell-level-3 { background-color: #0ea5e9; } /* sky-500 */
+.dark .cell-level-4 { background-color: #38bdf8; } /* sky-400 */
+
+/* --- Progress Circular Ring --- */
+.progress-ring-circle {
+  transition: stroke-dashoffset 0.35s;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+}
+
+/* --- Kanban Drag-over Indicator --- */
+.kanban-column.drag-over {
+  border: 2px dashed var(--accent-blue);
+  background-color: rgba(14, 165, 233, 0.08);
+}
+
+/* --- Toggle Switch Styling --- */
+.toggle-checkbox:checked + .toggle-label {
+  background-color: var(--accent-blue);
+}
+.toggle-checkbox:checked + .toggle-label .toggle-dot {
+  transform: translateX(100%);
+}
+
+.text-gradient-purple-blue {
+  background: linear-gradient(135deg, #818cf8, var(--accent-blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.text-gradient-orange-red {
+  background: linear-gradient(135deg, var(--accent-orange), #ef4444);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.text-gradient-emerald-blue {
+  background: linear-gradient(135deg, #34d399, var(--accent-blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
