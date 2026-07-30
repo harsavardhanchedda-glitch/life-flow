@@ -187,7 +187,7 @@
     constructor() {
       this.listeners = [];
       this.load();
-      this.initFirebaseSync();
+      this.initCloudflareSync();
     }
 
     load() {
@@ -224,9 +224,9 @@
         localStorage.setItem("lf_streak", this.state.streak.toString());
         localStorage.setItem("lf_longest_streak", this.state.longestStreak.toString());
         
-        // Save to Firebase Cloud Sync if active
-        if (window.LifeFlowFirebase) {
-          window.LifeFlowFirebase.syncData(this.state);
+        // Save to Cloudflare Cloud Sync if active
+        if (window.LifeFlowCloudflare) {
+          window.LifeFlowCloudflare.syncData(this.state);
         }
 
         this.notify();
@@ -296,10 +296,10 @@
       }
     }
 
-    initFirebaseSync() {
-      if (!window.LifeFlowFirebase) return;
+    initCloudflareSync() {
+      if (!window.LifeFlowCloudflare) return;
 
-      window.LifeFlowFirebase.onAuthStateChanged(user => {
+      window.LifeFlowCloudflare.onAuthStateChanged(user => {
         if (user) {
           console.log("Store: Auth state changed - User Logged In:", user.email);
           this.state.profile.name = user.displayName || user.email.split("@")[0];
@@ -307,9 +307,9 @@
             this.state.profile.avatar = user.photoURL;
           }
           
-          window.LifeFlowFirebase.fetchData().then(cloudData => {
+          window.LifeFlowCloudflare.fetchData().then(cloudData => {
             if (cloudData) {
-              console.log("Store: Merging cloud database data...");
+              console.log("Store: Merging Cloudflare database data...");
               this.state = {
                 ...this.state,
                 ...cloudData,
@@ -331,7 +331,7 @@
               this.recalculateStreaks();
               this.notify();
             } else {
-              window.LifeFlowFirebase.syncData(this.state);
+              window.LifeFlowCloudflare.syncData(this.state);
             }
           });
         } else {

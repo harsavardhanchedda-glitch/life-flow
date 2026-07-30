@@ -1188,26 +1188,20 @@
       <!-- Real Google Identity Services (GSI) Button Container -->
       <div id="gsi-button-container" class="w-full flex justify-center overflow-hidden rounded-xl my-2"></div>
 
-      <div class="text-center mt-2">
-        <button onclick="signInWithFirebasePopup()" class="text-[10px] text-slate-400 hover:text-brand-500 font-semibold underline transition-all">
-          Alternative Google Login (Firebase Popup)
-        </button>
-      </div>
-
       <!-- Connection config collapse -->
       <div class="pt-4 border-t dark:border-slate-800 space-y-2">
-        <button onclick="toggleFirebaseConfigSection()" class="w-full text-left text-[9px] font-bold text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 uppercase tracking-wider flex items-center justify-between">
-          <span>Firebase Connection settings</span>
-          <i data-lucide="chevron-right" class="w-3.5 h-3.5 transition-transform" id="fb-config-chevron"></i>
+        <button onclick="toggleCloudflareConfigSection()" class="w-full text-left text-[9px] font-bold text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 uppercase tracking-wider flex items-center justify-between">
+          <span>Cloudflare Edge settings</span>
+          <i data-lucide="chevron-right" class="w-3.5 h-3.5 transition-transform" id="cf-config-chevron"></i>
         </button>
-        <div id="fb-config-inputs-section" class="hidden space-y-2 pt-2">
-          <p class="text-[9px] text-slate-500 leading-tight">Connect your own Firebase project for cloud synchronization. Paste your web app configuration JSON object below:</p>
-          <textarea id="firebase-config-json" rows="4" placeholder='{ "apiKey": "...", "authDomain": "...", "projectId": "..." }' class="w-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-2.5 text-xs font-mono focus:outline-none focus:ring-1 focus:ring-brand-500"></textarea>
+        <div id="cf-config-inputs-section" class="hidden space-y-2 pt-2">
+          <p class="text-[9px] text-slate-500 leading-tight">Connect your own Cloudflare Worker API for cloud sync. Paste your Cloudflare Worker URL below:</p>
+          <input type="url" id="cloudflare-worker-url" placeholder="https://lifeflow-api.your-subdomain.workers.dev" class="w-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-3 text-xs focus:outline-none focus:ring-1 focus:ring-brand-500">
           <div class="flex gap-2">
-            <button onclick="saveFirebaseConfig()" class="flex-1 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-bold transition-all">
+            <button onclick="saveCloudflareConfig()" class="flex-1 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-bold transition-all">
               Save & Connect
             </button>
-            <button onclick="clearFirebaseConfig()" class="py-2 px-3 bg-rose-500/10 hover:bg-rose-500/20 text-rose-500 rounded-xl text-xs font-bold transition-all">
+            <button onclick="clearCloudflareConfig()" class="py-2 px-3 bg-rose-500/10 hover:bg-rose-500/20 text-rose-500 rounded-xl text-xs font-bold transition-all">
               Reset
             </button>
           </div>
@@ -1216,11 +1210,8 @@
     </div>
   </div>
 
-  <!-- Load Firebase SDK Compat -->
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-  <script src="js/firebase.js"></script>
+  <!-- Load Cloudflare Sync API Client -->
+  <script src="js/cloudflare.js"></script>
 
   <!-- Load App scripts -->
   <script src="js/quotes.js"></script>

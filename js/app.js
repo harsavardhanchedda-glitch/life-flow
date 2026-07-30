@@ -2089,11 +2089,11 @@
     modal.classList.remove("opacity-0", "pointer-events-none");
     modal.querySelector(".glass-panel").classList.remove("scale-95");
     
-    // Autofill firebase config json if exists in localStorage
-    const savedConfig = localStorage.getItem("lf_firebase_config");
-    const jsonField = document.getElementById("firebase-config-json");
-    if (savedConfig && jsonField) {
-      jsonField.value = savedConfig;
+    // Autofill cloudflare worker URL if exists in localStorage
+    const savedUrl = localStorage.getItem("lf_cloudflare_url");
+    const urlField = document.getElementById("cloudflare-worker-url");
+    if (savedUrl && urlField) {
+      urlField.value = savedUrl;
     }
 
     // Render dynamic Google Identity Services Popup Sign In button
@@ -2159,9 +2159,9 @@
     }
   };
 
-  window.toggleFirebaseConfigSection = function() {
-    const section = document.getElementById("fb-config-inputs-section");
-    const chevron = document.getElementById("fb-config-chevron");
+  window.toggleCloudflareConfigSection = function() {
+    const section = document.getElementById("cf-config-inputs-section");
+    const chevron = document.getElementById("cf-config-chevron");
     if (!section) return;
     
     if (section.classList.contains("hidden")) {
@@ -2173,22 +2173,22 @@
     }
   };
 
-  window.saveFirebaseConfig = function() {
-    const val = document.getElementById("firebase-config-json").value.trim();
+  window.saveCloudflareConfig = function() {
+    const val = document.getElementById("cloudflare-worker-url").value.trim();
     if (!val) {
-      alert("Please paste a valid Firebase configuration JSON.");
+      alert("Please paste a valid Cloudflare Worker API URL.");
       return;
     }
     
-    if (window.LifeFlowFirebase.saveConfig(val)) {
-      alert("Firebase configuration saved! Reinitializing...");
+    if (window.LifeFlowCloudflare.saveConfig(val)) {
+      alert("Cloudflare configuration saved! Reinitializing...");
       closeLoginModal();
     }
   };
 
-  window.clearFirebaseConfig = function() {
-    if (confirm("Are you sure you want to reset and disconnect from Firebase?")) {
-      window.LifeFlowFirebase.clearConfig();
+  window.clearCloudflareConfig = function() {
+    if (confirm("Are you sure you want to reset and disconnect from Cloudflare?")) {
+      window.LifeFlowCloudflare.clearConfig();
     }
   };
 
@@ -2197,7 +2197,7 @@
     const email = document.getElementById("auth-email").value.trim();
     const pass = document.getElementById("auth-password").value;
     
-    window.LifeFlowFirebase.signInWithEmail(email, pass)
+    window.LifeFlowCloudflare.signInWithEmail(email, pass)
       .then(() => {
         alert("Successfully logged in!");
         closeLoginModal();
@@ -2212,7 +2212,7 @@
     const email = document.getElementById("auth-signup-email").value.trim();
     const pass = document.getElementById("auth-signup-password").value;
     
-    window.LifeFlowFirebase.signUpWithEmail(email, pass)
+    window.LifeFlowCloudflare.signUpWithEmail(email, pass)
       .then(() => {
         alert("Account successfully created and logged in!");
         closeLoginModal();
@@ -2223,7 +2223,7 @@
   };
 
   window.signInWithGoogle = function() {
-    window.LifeFlowFirebase.signInWithGoogle()
+    window.LifeFlowCloudflare.signInWithGoogle()
       .then(() => {
         alert("Successfully connected with Google!");
         closeLoginModal();
@@ -2233,30 +2233,9 @@
       });
   };
 
-  window.signInWithFirebasePopup = function() {
-    if (window.LifeFlowFirebase.isConnected()) {
-      const provider = new firebase.auth.GoogleAuthProvider();
-      firebase.auth().signInWithPopup(provider)
-        .then(result => {
-          alert("Successfully connected via Google Pop-up!");
-          closeLoginModal();
-        })
-        .catch(err => {
-          console.error("Google Popup Authentication failed:", err);
-          if (err.code === "auth/unauthorized-domain") {
-            alert("Authorization Error: This domain (localhost) is not authorized in your Firebase project.\n\nTo fix this:\n1. Go to your Firebase Console (console.firebase.google.com)\n2. Navigate to Authentication -> Settings -> Authorized Domains\n3. Click 'Add Domain' and add 'localhost'\n4. Refresh the page and try logging in again!");
-          } else {
-            alert("Google Popup Authentication failed: " + err.message);
-          }
-        });
-    } else {
-      alert("Please configure or check your Firebase credentials configuration first.");
-    }
-  };
-
   window.signOutUser = function() {
     if (confirm("Are you sure you want to sign out? Your local changes will remain stored locally.")) {
-      window.LifeFlowFirebase.signOut()
+      window.LifeFlowCloudflare.signOut()
         .then(() => {
           alert("Successfully signed out.");
         });
@@ -2275,8 +2254,8 @@
   };
 
   // Bind Auth state changes to update the UI
-  if (window.LifeFlowFirebase) {
-    window.LifeFlowFirebase.onAuthStateChanged(user => {
+  if (window.LifeFlowCloudflare) {
+    window.LifeFlowCloudflare.onAuthStateChanged(user => {
       const loggedOutEl = document.getElementById("auth-logged-out-state");
       const loggedInEl = document.getElementById("auth-logged-in-state");
       const userEmailEl = document.getElementById("auth-user-email");
